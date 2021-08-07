@@ -3,6 +3,5 @@
     "ASCIIArray": ".-+*wGHM#&%",
     "ScreenResolution": "1280 720",
     "fontName": "assets/FiraCode-Regular.ttf",
-    "fontSize": 7,
-    "fps": 30
+    "fontSizeAt120p": 12
 }
