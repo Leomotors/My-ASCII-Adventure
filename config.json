@@ -1,4 +1,8 @@
 {
-    "ImageWidth": 120,
-    "ASCIIArray" :"BS#&@$%*!:."
+    "ImageWidth": 240,
+    "ASCIIArray": ".-+*wGHM#&%",
+    "ScreenResolution": "1280 720",
+    "fontName": "assets/FiraCode-Regular.ttf",
+    "fontSize": 7,
+    "fps": 30
 }
