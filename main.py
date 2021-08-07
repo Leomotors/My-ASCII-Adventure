@@ -25,7 +25,8 @@ screen = pg.display.set_mode(SCREEN_RES)
 setfps = pg.time.Clock()
 font = pg.font.Font(FONT_LOC, FONT_SIZE)
 
-VIDEO = "assets/ご注文はうさぎですか？？ ED2.mp4"
+VIDEO = "assets/" + input("Enter filename (put in assets folder): ") + ".mp4"
+
 vidcap = cv2.VideoCapture(VIDEO)
 vid_fps = vidcap.get(cv2.CAP_PROP_FPS)
 vid_length = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -48,6 +49,7 @@ def process_frame(image):
     height = raw_data["dimension"][0]
     width = raw_data["dimension"][1]
 
+
 print("Processing Video...")
 for _ in tqdm(range(vid_length)):
     success, image = vidcap.read()
@@ -61,6 +63,7 @@ ascii_dict = {}
 for c in tqdm(ASCII_CHARS):
     ascii_dict[c] = font.render(c, True, (255, 255, 255))
 print("Processing ASCII Characters Done!")
+
 
 def Visualize(pixels):
     for index, data in enumerate(pixels):
@@ -89,6 +92,7 @@ def Loop():
 
     pg.display.flip()
     setfps.tick(vid_fps)
+
 
 music.play()
 
