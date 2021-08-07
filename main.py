@@ -17,6 +17,8 @@ IMG_WIDTH = SETTINGS["ImageWidth"]
 SCREEN_RES = tuple(int(r) for r in SETTINGS["ScreenResolution"].split(' '))
 FONT_LOC = SETTINGS["fontName"]
 FONT_SIZE = round(SETTINGS["fontSizeAt120p"] * 120 / IMG_WIDTH)
+BRIGHTNESS = SETTINGS["Brightness"]
+
 
 pg.init()
 pg.display.set_caption("ASCII Art Visualizer")
@@ -61,7 +63,7 @@ print("Process Video Done!")
 print("Processing ASCII Characters...")
 ascii_dict = {}
 for c in tqdm(ASCII_CHARS):
-    ascii_dict[c] = font.render(c, True, (255, 255, 255))
+    ascii_dict[c] = font.render(c, True, (BRIGHTNESS, BRIGHTNESS, BRIGHTNESS))
 print("Processing ASCII Characters Done!")
 
 
