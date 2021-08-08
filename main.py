@@ -5,7 +5,7 @@ from utils.ImgToASCII import ImgToASCII
 import cv2
 from tqdm import tqdm
 import moviepy.editor as mp
-
+import time
 
 SETTINGS = {}
 
@@ -32,6 +32,8 @@ VIDEO = "assets/" + input("Enter filename (put in assets folder): ") + ".mp4"
 vidcap = cv2.VideoCapture(VIDEO)
 vid_fps = vidcap.get(cv2.CAP_PROP_FPS)
 vid_length = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
+vid_duration = vid_length/vid_fps
+
 
 clip = mp.VideoFileClip(VIDEO)
 clip.audio.write_audiofile(r"temp/temp.mp3")
@@ -52,6 +54,13 @@ def process_frame(image):
     width = raw_data["dimension"][1]
 
 
+print("Processing ASCII Characters...")
+ascii_dict = {}
+for c in tqdm(ASCII_CHARS):
+    ascii_dict[c] = font.render(c, True, (BRIGHTNESS, BRIGHTNESS, BRIGHTNESS))
+print("Processing ASCII Characters Done!")
+
+
 print("Processing Video...")
 for _ in tqdm(range(vid_length)):
     success, image = vidcap.read()
@@ -59,12 +68,6 @@ for _ in tqdm(range(vid_length)):
         break
     process_frame(image)
 print("Process Video Done!")
-
-print("Processing ASCII Characters...")
-ascii_dict = {}
-for c in tqdm(ASCII_CHARS):
-    ascii_dict[c] = font.render(c, True, (BRIGHTNESS, BRIGHTNESS, BRIGHTNESS))
-print("Processing ASCII Characters Done!")
 
 
 def Visualize(pixels):
@@ -80,22 +83,38 @@ frame = 0
 
 
 def Loop():
-    global frame
+    global frame, start_time
     screen.fill((0, 0, 0))
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                music.stop()
+                frame = 0
+                start_time = time.time()
+                music.play()
 
     Visualize(video_data[frame])
     frame += 1
     if(frame >= len(video_data)):
+        time_used = time.time() - start_time
+        performance: float = vid_duration / time_used
+        performance = 1 if performance > 1 else performance
+        print(f"Performance Result: {performance * 100}%")
+        benchmark_score = 100 * performance**3 * \
+            (IMG_WIDTH/120)**2 * (SCREEN_RES[0]*SCREEN_RES[1]/(1280*720))**1.2
+        print(f"Benchmark Score: {benchmark_score}")
+
         frame = 0
+        start_time = time.time()
         music.play()
 
     pg.display.flip()
     setfps.tick(vid_fps)
 
 
+start_time = time.time()
 music.play()
 
 while True:
