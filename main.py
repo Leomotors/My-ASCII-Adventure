@@ -72,7 +72,7 @@ print("Process Video Done!")
 
 def Visualize(pixels):
     for index, data in enumerate(pixels):
-        row = index/width
+        row = index//width
         col = index % width
         rowpos = row*SCREEN_RES[0]/width
         colpos = col*SCREEN_RES[1]/height
